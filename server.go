@@ -5,7 +5,7 @@ import ("log"
 		"encoding/json"
 		"github.com/gorilla/mux"
 		"./Conexion"
-		//"./structures"
+		"./structures"
 		)
 
 func main(){
@@ -22,6 +22,13 @@ func GetUser(w http.ResponseWriter,r *http.Request){
 	vars := mux.Vars(r)
 	user_id := vars["id"]
 
+	status := "succes"
+	var message string
 	user := Conexion.GetUser(user_id)
-	json.NewEncoder(w).Encode(user) 
+	if(user.Id <= 0){
+		status = "Error"
+		message = "User not found"
+	} 
+	respose := structures.Response{status,user,message}
+	json.NewEncoder(w).Encode(respose) 
 }
