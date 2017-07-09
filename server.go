@@ -2,7 +2,14 @@ package main
 
 import ("log" 
 		"net/http" 
+		"encoding/json"
 		"github.com/gorilla/mux")
+
+type User struct {
+	UserName string  `json:UserName`
+	FirstName string `json:FirstName`
+	LastName string `json:LastName`
+}
 
 func main(){
 
@@ -14,5 +21,6 @@ func main(){
 }
 
 func GetUser(w http.ResponseWriter,r *http.Request){
-	w.Write([]byte("Mustangs\n"))
+	user := User{"Alan","Test_1", "Test_2"}
+	json.NewEncoder(w).Encode(user) 
 }
