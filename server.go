@@ -13,6 +13,8 @@ func main(){
 	defer Conexion.CloseConnection()
 	r := mux.NewRouter()
 	r.HandleFunc("/user/{id}",GetUser).Methods("GET")
+	r.HandleFunc("/user/new",NewUser).Methods("POST")
+
     log.Println("Este servidor esta corriendo en el puerto 8000")
     log.Fatal(http.ListenAndServe(":8000",r))
 
@@ -32,3 +34,20 @@ func GetUser(w http.ResponseWriter,r *http.Request){
 	respose := structures.Response{status,user,message}
 	json.NewEncoder(w).Encode(respose) 
 }
+
+func NewUser(w http.ResponseWriter,r *http.Request) {
+	user := GetUserRequest(r)
+	respose :=  structures.Response{"suces",Conexion.CreateUser(user),""}
+	json.NewEncoder(w).Encode(respose) 
+}
+
+func GetUserRequest(r *http.Request) structures.User {
+	var user structures.User
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&user)
+	if err != nil{
+		log.Fatal(err)
+	}
+	return user
+}
+

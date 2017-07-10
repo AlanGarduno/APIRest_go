@@ -40,3 +40,9 @@ func GetUser(id string) structures.User {
 func CreateString() string {
 	return username+":"+password+"@/"+database
 }
+
+func CreateUser(user structures.User)structures.User {
+	connection.Create(&user)
+	return user
+	
+}
