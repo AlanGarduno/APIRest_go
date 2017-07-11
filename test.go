@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	url := "http://localhost:8000/user/new"
+	url := "http://localhost:8000/user/update/2"
 	fmt.Println("URL:>", url)
-	var jsonStr = []byte(`{"usernmae:"test_1","first_name":"test_1","last_name":"test_1"}`)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	var jsonStr = []byte(`{"usernmae:"PATCH 1","first_name":"PATCH 2","last_name":"PATCH 3"}`)
+	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(jsonStr))
 	
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
