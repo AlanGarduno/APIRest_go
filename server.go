@@ -15,6 +15,7 @@ func main(){
 	r.HandleFunc("/user/{id}",GetUser).Methods("GET")
 	r.HandleFunc("/user/new",NewUser).Methods("POST")
 	r.HandleFunc("/user/update/{id}",UpdateUser).Methods("PATCH")
+	r.HandleFunc("/user/delete/{id}",DeleteUser).Methods("DELETE")
 
     log.Println("Este servidor esta corriendo en el puerto 8000")
     log.Fatal(http.ListenAndServe(":8000",r))
@@ -57,8 +58,17 @@ func UpdateUser(w http.ResponseWriter,r *http.Request) {
 	user_id := vars["id"]
 
 	user := GetUserRequest(r)
-	
+
 	respose :=  structures.Response{"suces",Conexion.UpdateUser(user_id,user),""}
 	json.NewEncoder(w).Encode(respose)
 }
 
+func DeleteUser(w http.ResponseWriter,r *http.Request) {
+	vars := mux.Vars(r)
+	user_id := vars["id"]
+	var user structures.User
+	Conexion.DeleteUser(user_id)
+
+	respose := structures.Response{"Succes",user,""}
+	json.NewEncoder(w).Encode(respose)
+}

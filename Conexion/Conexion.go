@@ -60,3 +60,10 @@ func UpdateUser(user_id string, user structures.User) structures.User {
 	return CurrentUser
 
 }
+
+func DeleteUser(user_id string) {
+	user := structures.User{}
+	connection.Where("id = ?",id).First(&user)
+	connection.Delete(&user)
+	
+}
